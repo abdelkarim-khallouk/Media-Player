@@ -17,20 +17,14 @@
          Scene scene = new Scene(racine, 800, 500);//544, 224
          st.setTitle("FsrLecteur");      
          st.setScene(scene);
-  
       
-      //Creation du media player
+      
+      //Creation du media
          Media media = new Media(MEDIA_URL);
-         MediaPlayer mediaPlayer = new MediaPlayer(media);        
-         mediaPlayer.setAutoPlay(true); 
-         mediaPlayer.setCycleCount(2); 									// * * * * * * * * * *
-         mediaPlayer.setStartTime(Duration.seconds(10));				// * * * * * * * * * *
-         mediaPlayer.setStopTime(Duration.seconds(20));				// * * * * * * * * * *
-      
-      
-      //Creation mediaView         
-         MediaControl mediaControl = new MediaControl(mediaPlayer);
+         MediaPlayer mediaPlayer = new MediaPlayer(media);              
+         MediaControl mediaControl = new MediaControl(mediaPlayer,scene);
          scene.setRoot(mediaControl);
+      
          st.show();     
       }        
    
