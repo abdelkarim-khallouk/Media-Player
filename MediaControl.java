@@ -4,9 +4,9 @@
    import javafx.util.Duration;
    import javafx.beans.InvalidationListener;
    import javafx.scene.Scene;
-   import javafx.stage.Window;
    import javafx.beans.Observable;
-   import javafx.scene.text.Text; 
+   import javafx.scene.text.*; 
+
 
 
 //Add MediaControl Class Code
@@ -28,10 +28,7 @@
          setBottom(text);
       
          mp.setAutoPlay(true); 
-         mp.setCycleCount(2); 									// * * * * * * * * * *
-         mp.setStartTime(Duration.seconds(10));				// * * * * * * * * * *
-         mp.setStopTime(Duration.seconds(20));				// * * * * * * * * * *
-      
+         mp.setCycleCount(2);
       
          mp.currentTimeProperty().addListener(
                                  new InvalidationListener() {
@@ -71,12 +68,7 @@
                                 System.out.println("Repeat");
                              }
                           });
-      }
-   }
-
-
-
-/*
+      
          mp.setOnPaused(     
                           new Runnable() {       
                              public void run() {    
@@ -88,4 +80,6 @@
                                  System.out.println("Stop");
                               }
                            });
-      */
+      }
+   }
+
