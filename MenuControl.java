@@ -1,34 +1,32 @@
-   import javafx.scene.media.MediaPlayer;
-   import javafx.scene.media.MediaView;
-   import javafx.scene.media.Media;
-   import javafx.stage.Stage;
+   import javafx.scene.media.*;
+   import javafx.scene.control.*;
    import javafx.scene.Scene;
-   import javafx.scene.control.MenuBar;
-   import javafx.scene.control.MenuItem;
-   import javafx.scene.control.Menu;
+   import javafx.stage.Stage;
+   import javafx.stage.FileChooser;
    import javafx.event.ActionEvent;
    import javafx.event.EventHandler;
-   import javafx.stage.FileChooser;
+   import javafx.util.Duration;
    import java.io.File;
-   import java.net.URL;
-   import java.net.MalformedURLException;
+   import java.net.*;
 
 
    public class MenuControl extends MenuBar { 
       String chemin;
       private MediaPlayer mp;
-   	//Scene scene;
       private Menu menuFichier=new Menu("Fichier");
       private Menu menuLecture = new Menu("Lecture");
    
       private MenuItem menuOuvrir=new MenuItem("Ouvrir");
       private MenuItem menuOptions = new MenuItem("Options");
       private MenuItem menuQuitter = new MenuItem("Quitter");
-   
+      private MenuItem menuMuetSon = new MenuItem("Muet/Son");	
+      private MenuItem menuLirePause = new MenuItem("Lecture/Pause");
+      private MenuItem menuArreter=new MenuItem("Lecture/Arrêter");
+
       public MenuControl(final MediaPlayer mp,final Scene scene) {
          this.mp = mp;
+         getMenus().addAll(menuFichier, menuLecture);
          menuFichier.getItems().addAll(menuOuvrir, menuOptions, menuQuitter);
-         getMenus().addAll(menuFichier, menuLecture); 
       
          menuQuitter.setOnAction(
                                  new EventHandler<ActionEvent>(){
@@ -47,7 +45,6 @@
                                        FileChooser fc = new FileChooser();
                                        fc.setInitialDirectory(new File("C:\\"));
                                        File fichier = fc.showOpenDialog(scene.getWindow());
-                                       //chemin = "file:/"+fichier.getPath();
                                        try{
                                           chemin = fichier.toURL().toExternalForm();
                                        }
@@ -56,13 +53,42 @@
                                        System.out.println(chemin);
                                        chemin = chemin.replaceAll(" ","%20");
                                        mp.stop();
+                                    	mp.dispose();
                                        Media media = new Media(chemin);
                                        MediaPlayer mediaPlayer = new MediaPlayer(media);   
                                        MediaControl mediaControl = new MediaControl(mediaPlayer,scene);
-                                    
+
                                        scene.setRoot(mediaControl);
                                     }
                                  });
+
+      
+         menuLecture.getItems().addAll(menuMuetSon, menuLirePause, menuArreter);
+      	
+      	         menuArreter.setOnAction(     
+                                 new EventHandler<ActionEvent>(){    
+                                    public void handle(ActionEvent e) {
+                                       if(mp.getStatus()==MediaPlayer.Status.PLAYING){ mp.seek(Duration.seconds(0)); mp.stop();}
+													   else if(mp.getStatus()==MediaPlayer.Status.STOPPED) mp.play();      
+                                    }
+                                 });
+      	         menuMuetSon.setOnAction(     
+                                 new EventHandler<ActionEvent>(){    
+                                    public void handle(ActionEvent e) {
+                                       mp.setMute(!mp.isMute());                                    
+                                    }
+                                 });
+
+      	         menuLirePause.setOnAction(     
+                                 new EventHandler<ActionEvent>(){    
+                                    public void handle(ActionEvent e) {
+                                       if(mp.getStatus()==MediaPlayer.Status.PLAYING)mp.pause(); 
+                                          else if(mp.getStatus()==MediaPlayer.Status.PAUSED) mp.play(); 
+                                  
+                                    }
+                                 });
+
+
       }
    }
 
