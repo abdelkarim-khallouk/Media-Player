@@ -2,10 +2,8 @@
    import javafx.scene.Group;
    import javafx.scene.Scene;
    import javafx.stage.Stage;
-   import javafx.scene.media.Media;
-   import javafx.scene.media.MediaPlayer;
-   //import javafx.scene.media.MediaView;  
-   import javafx.util.Duration;
+   import javafx.scene.media.*;
+   import java.io.File;
 
    public class MonLecteur extends Application {         
    //Specifier le fichier source Media
@@ -17,7 +15,6 @@
          Scene scene = new Scene(racine, 800, 500);//544, 224
          st.setTitle("FsrLecteur");      
          st.setScene(scene);
-      
       
       //Creation du media
          Media media = new Media(MEDIA_URL);
