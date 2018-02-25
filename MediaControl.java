@@ -1,8 +1,10 @@
-   import javafx.scene.layout.BorderPane;
+   import javafx.scene.layout.BorderPane;
    import javafx.scene.media.MediaPlayer;
    import javafx.scene.media.MediaView;
    import javafx.util.Duration;
    import javafx.beans.InvalidationListener;
+   import javafx.scene.Scene;
+   import javafx.stage.Window;
    import javafx.beans.Observable;
    import javafx.scene.text.Text; 
 
@@ -14,12 +16,21 @@
       private MediaView mediaView;
       private Text text;
    
-      public MediaControl(final MediaPlayer mp) {
+      public MediaControl(final MediaPlayer mp,final Scene scene) {
          this.mp = mp;
          mediaView = new MediaView(mp);
-         getChildren().add(mediaView);//setCenter(mediaView)
+         setCenter(mediaView);
+      
+         MenuControl menu = new MenuControl(mp, scene);
+         setTop(menu);
+      
          text=new Text(50, 300, "");
-         getChildren().add(text);
+         setBottom(text);
+      
+         mp.setAutoPlay(true); 
+         mp.setCycleCount(2); 									// * * * * * * * * * *
+         mp.setStartTime(Duration.seconds(10));				// * * * * * * * * * *
+         mp.setStopTime(Duration.seconds(20));				// * * * * * * * * * *
       
       
          mp.currentTimeProperty().addListener(
