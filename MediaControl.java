@@ -1,4 +1,4 @@
-   import javafx.scene.media.*;
+   import javafx.scene.media.MediaPlayer;
    import javafx.util.Duration;
    import javafx.beans.InvalidationListener;
    import javafx.scene.Scene;
@@ -10,7 +10,7 @@
 //Add MediaControl Class Code
    public class MediaControl {  
       private MediaPlayer mp;
-      private Duration dureeCourant, dureeTotal;																	//* * * * * * * Format Durée courante/Globale
+      static Duration dureeCourant, dureeTotal; 
    
       public MediaControl(final MediaPlayer mp, final Scene scene) {
          this.mp = mp;
@@ -22,8 +22,9 @@
                                  new InvalidationListener() {
                                     public void invalidated(Observable ov) {
                                        dureeCourant = mp.getCurrentTime();
-                                       String temps = Format.formatTime(dureeCourant,dureeTotal);	//* * * * * * * Format Durée courante/Globale
-                                       MonLecteur.textTemps.setText(temps);								//* * * * * * * Format Durée courante/Globale
+                                       String temps = Format.formatTime(dureeCourant,dureeTotal);
+                                       MediaBar.textTemps.setText(temps);                                         //* * * * * * * Insertion Temps Ecoulé du Media
+                                       MediaBar.slider.setValue(dureeCourant.divide(dureeTotal).toMillis()*100);  //* * * * * * * Activation de la Progression
                                     }
                                  });
       
@@ -31,7 +32,7 @@
          mp.setOnReady(        
                          new Runnable() {       
                             public void run() {      
-                               dureeTotal = mp.getMedia().getDuration();									//* * * * * * * Format Durée courante/Globale
+                               dureeTotal = mp.getMedia().getDuration();
                                double largeur = mp.getMedia().getWidth();
                                double hauteur = mp.getMedia().getHeight();
                                System.out.println("Ready, Duree: "+(int)dureeTotal.toSeconds()+"s");
@@ -40,11 +41,14 @@
                                Window window=scene.getWindow();
                             
                                if(hauteur==0){
-                                  largeur = 500; hauteur = 100;												//* * * * * * * Fixation Dimention Window pour "Audio"
+                                  largeur = 500; hauteur = 100;
                                }
-                               window.setWidth(largeur+40);														//* * * * * * * Adaptation Taille lecteur au video
-                               window.setHeight(hauteur+80);													//* * * * * * * Adaptation Taille lecteur au video
-                              }
+                               window.setWidth(largeur+40); 
+                               window.setHeight(hauteur+80);
+                               MonLecteur.mediaBar.setLargeurSlider(largeur-50);                   //* * * * * * * Adaptation Taille MediaBar au Media 
+                               MediaBar.textNom.setText(MenuLecteur.fichier.getName());            //* * * * * * * Insertion Nom du Media
+
+                            }
                          });
       
          mp.setOnEndOfMedia(        

@@ -26,8 +26,8 @@
       private MenuItem menuLirePause = new MenuItem("Lecture/Pause");
       private MenuItem menuArreter=new MenuItem("Lecture/Arrêter");
       private MediaPlayer mplayer;   
-      private  List playlist;
-      private File fichier=new File("C:\\");
+      private List playlist;
+      static File fichier=new File("C:\\");
    
       public MenuLecteur (final Scene scene){
          menuFichier.getItems().addAll(menuOuvrir, menuOptions, menuQuitter);
@@ -72,22 +72,22 @@
                                  });
 
 //insertion MenuItem "Mute", "Pause", "Arreter" sur Menu "Lecture"
-         menuLecture.getItems().addAll(menuMuetSon, menuLirePause, menuArreter);      	
-      	         menuArreter.setOnAction(     
+         menuLecture.getItems().addAll(menuMuetSon, menuLirePause, menuArreter);       
+                  menuArreter.setOnAction(     
                                  new EventHandler<ActionEvent>(){    
                                     public void handle(ActionEvent e) {
                                        if(mplayer.getStatus()==MediaPlayer.Status.PLAYING){ mplayer.seek(Duration.seconds(0)); mplayer.stop();} 
-													   else if(mplayer.getStatus()==MediaPlayer.Status.STOPPED) mplayer.play();      
+                                          else if(mplayer.getStatus()==MediaPlayer.Status.STOPPED) mplayer.play();      
                                     }
                                  });
-      	         menuMuetSon.setOnAction(     
+                  menuMuetSon.setOnAction(     
                                  new EventHandler<ActionEvent>(){    
                                     public void handle(ActionEvent e) {
                                        mplayer.setMute(!mplayer.isMute());                                    
                                     }
                                  });
 
-      	         menuLirePause.setOnAction(     
+                  menuLirePause.setOnAction(     
                                  new EventHandler<ActionEvent>(){    
                                     public void handle(ActionEvent e) {
                                        if(mplayer.getStatus()==MediaPlayer.Status.PLAYING)mplayer.pause(); 
