@@ -1,31 +1,19 @@
-   import javafx.scene.layout.BorderPane;
-   import javafx.scene.media.MediaPlayer;
-   import javafx.scene.media.MediaView;
+   import javafx.scene.media.*;
    import javafx.util.Duration;
    import javafx.beans.InvalidationListener;
    import javafx.scene.Scene;
+   import javafx.stage.Window;
    import javafx.beans.Observable;
-   import javafx.scene.text.*; 
-
+   import javafx.scene.text.Text; 
 
 
 //Add MediaControl Class Code
-
-   public class MediaControl extends BorderPane {   
+   public class MediaControl {  
       private MediaPlayer mp;
-      private MediaView mediaView;
-      private Text text;
+      private Duration dureeCourant, dureeTotal;																	//* * * * * * * Format Durée courante/Globale
    
-      public MediaControl(final MediaPlayer mp,final Scene scene) {
+      public MediaControl(final MediaPlayer mp, final Scene scene) {
          this.mp = mp;
-         mediaView = new MediaView(mp);
-         setCenter(mediaView);
-      
-         MenuControl menu = new MenuControl(mp, scene);
-         setTop(menu);
-      
-         text=new Text(50, 300, "");
-         setBottom(text);
       
          mp.setAutoPlay(true); 
          mp.setCycleCount(2);
@@ -33,16 +21,30 @@
          mp.currentTimeProperty().addListener(
                                  new InvalidationListener() {
                                     public void invalidated(Observable ov) {
-                                       text.setText((int)mp.getCurrentTime().toSeconds()+"s");
+                                       dureeCourant = mp.getCurrentTime();
+                                       String temps = Format.formatTime(dureeCourant,dureeTotal);	//* * * * * * * Format Durée courante/Globale
+                                       MonLecteur.textTemps.setText(temps);								//* * * * * * * Format Durée courante/Globale
                                     }
                                  });
+      
       
          mp.setOnReady(        
                          new Runnable() {       
                             public void run() {      
-                               System.out.println("Ready, Duree: "+(int)mp.getMedia().getDuration().toSeconds()+"s");
-                               System.out.println(mp.getMedia().getWidth()+" , "+mp.getMedia().getHeight());
-                            }
+                               dureeTotal = mp.getMedia().getDuration();									//* * * * * * * Format Durée courante/Globale
+                               double largeur = mp.getMedia().getWidth();
+                               double hauteur = mp.getMedia().getHeight();
+                               System.out.println("Ready, Duree: "+(int)dureeTotal.toSeconds()+"s");
+                               System.out.println(largeur+" , "+hauteur);
+                            
+                               Window window=scene.getWindow();
+                            
+                               if(hauteur==0){
+                                  largeur = 500; hauteur = 100;												//* * * * * * * Fixation Dimention Window pour "Audio"
+                               }
+                               window.setWidth(largeur+40);														//* * * * * * * Adaptation Taille lecteur au video
+                               window.setHeight(hauteur+80);													//* * * * * * * Adaptation Taille lecteur au video
+                              }
                          });
       
          mp.setOnEndOfMedia(        
@@ -61,14 +63,12 @@
                               }
                            });
       
-      
          mp.setOnRepeat(        
                           new Runnable() {
                              public void run() {      
                                 System.out.println("Repeat");
                              }
                           });
-      
          mp.setOnPaused(     
                           new Runnable() {       
                              public void run() {    
@@ -82,4 +82,3 @@
                            });
       }
    }
-
