@@ -1,0 +1,35 @@
+.slider .thumb{
+
+-fx-background-color: radial-gradient(center 50% 50%, radius 80%, rgba(255, 255, 255, 1) 16%, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.4) 80%);
+-fx-padding: 0.7em;
+
+/*
+-fx-background-color: radial-gradient(center 70% 30%, radius 80%,  red 16%, blue 20%);
+-fx-padding: 5em;
+-fx-background-radius: 5em;
+-fx-opacity: 0.4;*/
+}
+						
+
+.slider .thumb:pressed {
+
+	-fx-padding: 0.9em;
+}
+            
+
+
+.slider .track{
+	-fx-opacity: 0;
+	-fx-padding: 0.001em;
+
+}
+
+.progress-bar .track{	
+	-fx-opacity: 0;	
+	-fx-background-color: white;
+}
+.progress-bar .bar{
+	-fx-padding: 0.08em;	
+	-fx-background-color: white;
+}
+

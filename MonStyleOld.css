@@ -1,0 +1,38 @@
+
+.slider .thumb{
+	-fx-opacity: 0.2;
+	-fx-background-color: white;
+	-fx-background-insets:  1, 1, 1, 1; /*Top,Right,Bottom,Left)*/
+	-fx-background-radius: 1em; 		/*cercle*/
+	-fx-padding: 1em;			/*Diametre*/
+
+
+}
+
+
+/*Quand la souris press le thumb*/
+.slider .thumb:pressed {
+	-fx-opacity: 0.8;
+	-fx-background-color: white;
+	-fx-padding: 1.1em; 
+}
+
+
+.slider .track{
+	-fx-background-color: linear-gradient(to right, white 90%, -fx-background);
+	-fx-padding: 0.05em;
+
+}
+
+
+
+/*Quand l'application est selectionné
+.slider:focused .thumb {
+    -fx-background-color:blue;
+}
+
+ Quand la souris survole le thumb
+.slider .thumb:hover {
+    -fx-color: yellow;
+}
+*/
