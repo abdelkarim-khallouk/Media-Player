@@ -1,13 +1,13 @@
-   import javafx.scene.media.MediaPlayer;
-   import javafx.util.Duration;
    import javafx.beans.InvalidationListener;
-   import javafx.scene.Scene;
-   import javafx.stage.Window;
    import javafx.beans.Observable;
-   import javafx.scene.text.Text; 
+   import javafx.scene.text.Text;
+   import javafx.util.Duration;
+   import javafx.scene.media.*;
+   import javafx.stage.Window;
+   import javafx.scene.Scene;
+   import java.io.File;
 
 
-//Add MediaControl Class Code
    public class MediaControl {  
       private MediaPlayer mp;
       static Duration dureeCourant, dureeTotal; 
@@ -23,8 +23,8 @@
                                     public void invalidated(Observable ov) {
                                        dureeCourant = mp.getCurrentTime();
                                        String temps = Format.formatTime(dureeCourant,dureeTotal);
-                                       MediaBar.textTemps.setText(temps);                                         //* * * * * * * Insertion Temps Ecoulé du Media
-                                       MediaBar.slider.setValue(dureeCourant.divide(dureeTotal).toMillis()*100);  //* * * * * * * Activation de la Progression
+                                       MonLecteur.mediaBar.textTemps.setText(temps);                                         //* * * * * * * Insertion Temps Ecoulé du Media
+                                       MonLecteur.mediaBar.slider.setValue(dureeCourant.divide(dureeTotal).toMillis()*100);  //* * * * * * * Activation de la Progression
                                     }
                                  });
       
@@ -33,21 +33,31 @@
                          new Runnable() {       
                             public void run() {      
                                dureeTotal = mp.getMedia().getDuration();
-                               double largeur = mp.getMedia().getWidth();
-                               double hauteur = mp.getMedia().getHeight();
-                               System.out.println("Ready, Duree: "+(int)dureeTotal.toSeconds()+"s");
-                               System.out.println(largeur+" , "+hauteur);
+                               double largeur = mp.getMedia().getWidth()+40;
+                               double hauteur = mp.getMedia().getHeight()+80;
                             
                                Window window=scene.getWindow();
                             
                                if(hauteur==0){
                                   largeur = 500; hauteur = 100;
                                }
-                               window.setWidth(largeur+40); 
-                               window.setHeight(hauteur+80);
-                               MonLecteur.mediaBar.setLargeurSlider(largeur-50);                   //* * * * * * * Adaptation Taille MediaBar au Media 
-                               MediaBar.textNom.setText(MenuLecteur.fichier.getName());            //* * * * * * * Insertion Nom du Media
+                               window.setWidth(largeur); 
+                               window.setHeight(hauteur);
 
+                              //* * * * * * * Adaptation Taille MediaBar au Media
+                               MonLecteur.mediaBar.setLargeurSlider(largeur);
+
+                               //* * * * * * * Adaptation Taille SearchBar au Media
+                               MonLecteur.searchBar.setLargeurSearchBar(largeur);
+
+                              //* * * * * * * Affichage Nom du Media
+                               String chemin = MonLecteur.mediaView.getMediaPlayer().getMedia().getSource();
+                               File fichier=new File(chemin);
+                               String nomMedia = fichier.getName();
+                               nomMedia = nomMedia.replaceAll("%20"," ");
+                               MonLecteur.mediaBar.textNom.setText(nomMedia);
+
+                               System.out.println(nomMedia+":\t"+(int)largeur+","+(int)hauteur+"\t\t"+(int)dureeTotal.toSeconds()+"s");                              
                             }
                          });
       

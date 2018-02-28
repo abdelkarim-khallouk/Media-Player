@@ -11,14 +11,13 @@
 
    public class MediaBar extends VBox{
    
-      static Text textTemps;
-      static Text textNom;
-      static Slider slider = new Slider();
-      ProgressBar progress = new ProgressBar(0);
+      public Text textTemps;
+      public Text textNom;
+      public Slider slider = new Slider();
+      private ProgressBar progress = new ProgressBar(0);
       boolean play=false;
    
-      public MediaBar(final Scene scene) {
-         double largeurSlider = scene.getWidth()-50;
+      public MediaBar(double largeurSlider) {
          slider.setMinWidth(largeurSlider+15);
          slider.setMaxWidth(largeurSlider);
          progress.setMinWidth(largeurSlider);
@@ -39,7 +38,7 @@
          BorderPane bordre_Name =new BorderPane();
 
       //Placer le Text (Nom du Media) à gauche du BorderPane
-         textNom=new Text("Xperia HD Landscapes");
+         textNom=new Text("");
          textNom.setFill(Color.WHITE);
          textNom.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
          BorderPane.setAlignment(textNom, Pos.CENTER);
@@ -102,10 +101,11 @@
          });
       }
    
-      public void setLargeurSlider (double ls){
-         slider.setMinWidth(ls+15);
-         slider.setMaxWidth(ls);
-         progress.setMinWidth(ls);
-         progress.setMaxWidth(ls);
+      public void setLargeurSlider (double largeur){
+         largeur-=50;
+         slider.setMinWidth(largeur+15);
+         slider.setMaxWidth(largeur);
+         progress.setMinWidth(largeur);
+         progress.setMaxWidth(largeur);
       }
    }

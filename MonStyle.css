@@ -15,8 +15,6 @@
 
 	-fx-padding: 0.9em;
 }
-            
-
 
 .slider .track{
 	-fx-opacity: 0;
@@ -33,3 +31,109 @@
 	-fx-background-color: white;
 }
 
+#label-search {
+	-fx-text-fill: gray;
+	-fx-font-size: 13;
+	-fx-font-weight: bold;
+}
+
+#label-search:hover {
+	-fx-font-style: italic;	
+}
+
+#label-search:pressed {
+	-fx-background-color: rgba(60, 130, 240);/*DODGERBLUE;*/
+	-fx-text-fill: White;
+	-fx-font-size: 14;
+}
+
+.text-search .text-field{
+	-fx-background-color: black;
+	-fx-text-fill: white;
+	-fx-font-size: 13;
+	-fx-border-color: gray;
+	-fx-border-radius: 1em;
+}
+
+.text-search .text-field:focused {
+
+    -fx-background-color: -fx-focus-color, black;
+    -fx-background-insets: -1.4, 1;
+
+    -fx-background-radius: 14.4;
+
+}
+
+.text-search .button {
+
+	-fx-background-color: null;
+
+	-fx-background-image: url("./img/search-clear-1.png");
+
+}
+
+
+.text-search .button:hover {
+
+	-fx-background-image: url("./img/search-clear-2.png");
+
+}
+
+#image-cover {
+	-fx-background-color: null;
+	-fx-background-image: url("./img/cover.png");	
+}
+
+#image-cover:pressed {
+	-fx-opacity: 0.6;	
+}
+
+#image-camera {
+
+	-fx-background-color: null;
+
+	-fx-background-image: url("./img/cam-1.png");
+
+}
+
+
+#image-camera:pressed {
+
+	-fx-background-image: url("./img/cam-2.png");
+
+}
+
+#plein-ecran {
+	-fx-background-color: null;
+	-fx-background-image: url("./img/pleinEcran.png");	
+}
+
+#plein-ecran:pressed {
+	-fx-opacity: 0.6;	
+}
+
+#capture {
+	-fx-background-color: null;
+	-fx-background-image: url("./img/capture.png");	
+}
+
+#volume-1 {
+
+	-fx-background-color: linear-gradient(to top, DODGERBLUE 40%, CYAN);
+}
+
+#volume-2 {
+
+	-fx-background-color: gray;
+}
+
+#mute:pressed {
+
+	-fx-opacity: 0.7;	
+}
+.tooltip {
+	-fx-background-color: linear-gradient(to top, DODGERBLUE 40%, CYAN);
+    	-fx-background-radius: 6;
+
+	-fx-border-color: gray;	
+}
