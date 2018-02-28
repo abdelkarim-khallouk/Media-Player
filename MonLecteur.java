@@ -1,3 +1,4 @@
+   //package lecteur;
    import javafx.application.Application;
    import javafx.scene.input.MouseEvent;
    import javafx.event.EventHandler;
@@ -11,7 +12,8 @@
    import javafx.stage.Stage;
    import javafx.animation.*;
 
-   public class MonLecteur extends Application {      
+
+   public class MonLecteur extends Application {
       static MediaView mediaView;
       static MediaBar mediaBar;
       static SearchBar searchBar;
@@ -28,8 +30,10 @@
       
       //Creation BorderPane
          BorderPane border = new BorderPane();
-         scene.setRoot(border); 
          border.setStyle("-fx-background-color: black;");
+         st.setMinHeight(280);
+         st.setMinWidth(380);
+         scene.setRoot(border);
       
       //Placer la Vue au centre du BorderPane
          mediaView = new MediaView(null);
@@ -93,18 +97,20 @@
                                     }
                                  });
 
+
       //Ajouter Listner sur window (Effet Zoom)
          scene.widthProperty().addListener(new ChangeListener<Number>() {  
              public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-               double largeurApp = scene.getWidth();
+               final double largeurApp = scene.getWidth();
                mediaView.setFitWidth(largeurApp);
+
                MonLecteur.mediaBar.setLargeurSlider(largeurApp);                    //* * * * * * * Adaptation Taille MediaBar au Media
-               MonLecteur.searchBar.setLargeurSearchBar(largeurApp);                //* * * * * * * Adaptation Taille SearchBar au Media       
+               MonLecteur.searchBar.setLargeurSearchBar(largeurApp);                //* * * * * * * Adaptation Taille SearchBar au Media
              }
          });
          scene.heightProperty().addListener(new ChangeListener<Number>() { 
              public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-            mediaView.setFitHeight(scene.getWindow().getHeight());
+               mediaView.setFitHeight(scene.getWindow().getHeight());
             }
       });
               

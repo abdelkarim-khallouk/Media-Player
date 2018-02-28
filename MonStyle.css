@@ -1,13 +1,6 @@
 .slider .thumb{
-
 -fx-background-color: radial-gradient(center 50% 50%, radius 80%, rgba(255, 255, 255, 1) 16%, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.4) 80%);
 -fx-padding: 0.7em;
-
-/*
--fx-background-color: radial-gradient(center 70% 30%, radius 80%,  red 16%, blue 20%);
--fx-padding: 5em;
--fx-background-radius: 5em;
--fx-opacity: 0.4;*/
 }
 						
 
@@ -19,7 +12,6 @@
 .slider .track{
 	-fx-opacity: 0;
 	-fx-padding: 0.001em;
-
 }
 
 .progress-bar .track{	
@@ -68,14 +60,14 @@
 
 	-fx-background-color: null;
 
-	-fx-background-image: url("./img/search-clear-1.png");
+	-fx-background-image: url("./img/clear-1.png");
 
 }
 
 
 .text-search .button:hover {
 
-	-fx-background-image: url("./img/search-clear-2.png");
+	-fx-background-image: url("./img/clear-2.png");
 
 }
 
@@ -112,11 +104,6 @@
 	-fx-opacity: 0.6;	
 }
 
-#capture {
-	-fx-background-color: null;
-	-fx-background-image: url("./img/capture.png");	
-}
-
 #volume-1 {
 
 	-fx-background-color: linear-gradient(to top, DODGERBLUE 40%, CYAN);
@@ -127,10 +114,21 @@
 	-fx-background-color: gray;
 }
 
-#mute:pressed {
+#star-1 {
+	-fx-background-image: url("./img/star-1.png");
 
+}
+
+#star-2 {
+	-fx-background-image: url("./img/star-2.png");
+
+}
+
+
+#mute:pressed {
 	-fx-opacity: 0.7;	
 }
+
 .tooltip {
 	-fx-background-color: linear-gradient(to top, DODGERBLUE 40%, CYAN);
     	-fx-background-radius: 6;

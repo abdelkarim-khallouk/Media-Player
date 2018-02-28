@@ -24,7 +24,7 @@
                                        dureeCourant = mp.getCurrentTime();
                                        String temps = Format.formatTime(dureeCourant,dureeTotal);
                                        MonLecteur.mediaBar.textTemps.setText(temps);                                         //* * * * * * * Insertion Temps Ecoulé du Media
-                                       MonLecteur.mediaBar.slider.setValue(dureeCourant.divide(dureeTotal).toMillis()*100);  //* * * * * * * Activation de la Progression
+                                       MonLecteur.mediaBar.sliderFSR.slider.setValue(dureeCourant.divide(dureeTotal).toMillis()*100);  //* * * * * * * Activation de la Progression
                                     }
                                  });
       
@@ -51,13 +51,13 @@
                                MonLecteur.searchBar.setLargeurSearchBar(largeur);
 
                               //* * * * * * * Affichage Nom du Media
-                               String chemin = MonLecteur.mediaView.getMediaPlayer().getMedia().getSource();
-                               File fichier=new File(chemin);
-                               String nomMedia = fichier.getName();
+                               String nomMedia = mp.getMedia().getSource();
+                               File fichier=new File(nomMedia);
+                               nomMedia = fichier.getName();
                                nomMedia = nomMedia.replaceAll("%20"," ");
                                MonLecteur.mediaBar.textNom.setText(nomMedia);
 
-                               System.out.println(nomMedia+":\t"+(int)largeur+","+(int)hauteur+"\t\t"+(int)dureeTotal.toSeconds()+"s");                              
+                               System.out.println("Nom: "+nomMedia+"\nSize: "+(int)largeur+","+(int)hauteur+"\nDuree: "+(int)dureeTotal.toSeconds()+"s"+"\nVolume: "+mp.getVolume());                              
                             }
                          });
       

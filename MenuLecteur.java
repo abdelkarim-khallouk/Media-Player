@@ -1,3 +1,4 @@
+   import composantsFSR.*;
    import java.net.MalformedURLException;
    import javafx.event.EventHandler;
    import javafx.event.ActionEvent;
@@ -64,7 +65,7 @@
                                        Media media = new Media(nomMedia);
                                        mPlayer = new MediaPlayer(media);
                                        MonLecteur.mediaView.setMediaPlayer(mPlayer);
-                                       mPlayer.setVolume((double) VolumeBar.niveauVolume / 10);
+                                       mPlayer.setVolume((double) VolumeFSR.volumeProgress.getValeur() / 10);
                                        new MediaControl(mPlayer , scene);
                                     }
                                  });
@@ -91,7 +92,7 @@
                                  new EventHandler<ActionEvent>(){    
                                     public void handle(ActionEvent e) {
                                        mPlayer = MonLecteur.mediaView.getMediaPlayer();
-                                       if(mPlayer.getStatus()==MediaPlayer.Status.PLAYING)mPlayer.pause();
+                                       if(mPlayer.getStatus()==MediaPlayer.Status.PLAYING)mPlayer.pause(); 
                                           else if(mPlayer.getStatus()==MediaPlayer.Status.PAUSED) mPlayer.play();                                  
                                     }
                                  });

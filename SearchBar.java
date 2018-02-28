@@ -1,20 +1,23 @@
+   import composantsFSR.*;
    import javafx.scene.input.MouseEvent;
    import javafx.event.EventHandler;
    import javafx.scene.control.*;
    import javafx.scene.layout.*;
    import javafx.scene.image.*;
    import javafx.scene.media.*;
+   import javafx.util.Duration;
    import java.io.IOException;
    import javafx.stage.Stage; 
    import javafx.scene.Scene;
-   //import javafx.geometry.*;
+   import javafx.animation.*;
+   import javafx.geometry.*;
    import java.io.File;
    import java.net.*;
 
-
    public class SearchBar extends BorderPane{
       private TextFieldFSR textSearch = new TextFieldFSR("Rechercher ...");
-      private VolumeBar volumeBar = new VolumeBar(MonLecteur.mediaView);
+      private VolumeFSR volumeFSR = new VolumeFSR(MonLecteur.mediaView);
+      private ProgressBarFSR starProgress = new ProgressBarFSR("star" , 5);
       private Label labelSearch = new Label("Search");
       private Button pleinEcran = new Button();
       private Button iconCover = new Button();
@@ -39,10 +42,15 @@
          iconCam.setTooltip(new Tooltip("Capture des Couvertures"));
          pleinEcran.setTooltip(new Tooltip("Plein Ecran"));
       
-         //Remplissage iconsBar par les icons: Cover, Camera et FullScreen
+         //Configurer le starProgress
+         starProgress.setValeur(3);
+         starProgress.setOpacity(1);
+         animateStarBar(starProgress);
+
+         //Remplissage iconsBar par les icons: Cover et Camera
          iconsBar.setSpacing(10);
          iconsBar.setAlignment(Pos.CENTER);
-         iconsBar.getChildren().addAll(iconCover, iconCam, pleinEcran);
+         iconsBar.getChildren().addAll(iconCover, iconCam, pleinEcran, starProgress);
       
          //Remplissage searchBar par les elements: textSearch et labelSearch
          searchBar.setSpacing(8);
@@ -52,25 +60,25 @@
          //Remplissage TopBar par les elements: Bar_des_Icons, Bar_de_Search et Bar_de_Volume
          setLeft(iconsBar);
          setCenter(searchBar);
-         setRight(volumeBar);
+         setRight(volumeFSR);
          setOpacity(0.7);
          setPrefHeight(30);
          resize(scene.getWidth(),30);
          setPadding(new Insets(0, 10, 0, 10));
          setStyle("-fx-background-color: black;");
       
-         //Action changement de Vue vers les Covers
+        //Action chagement de Vue vers les Covers
          iconCover.setOnMouseClicked( 
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
                                        System.out.println("Affichage Couvertures des Medias");
                                     }
-                                 });  
-        //Action Capture d'image 
+                                 });   
+        //Action Capture d'image
          iconCam.setOnMouseClicked(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       System.out.println("Capture Cover depuis Media");
+                                       System.out.println("Capture d'image depuis Media");
                                     }
                                  });
         //Action Plein Ecran 
@@ -78,8 +86,14 @@
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
                                        Stage st= (Stage) scene.getWindow();
-                                       st.setFullScreen(!st.isFullScreen());
-                                       System.out.println("Changement Mode Ecran");
+                                       if(st.isFullScreen()){
+                                          st.setFullScreen(false);
+                                          System.out.println("Retour en Mode Ecran Normale");
+                                         }
+                                       else{
+                                          st.setFullScreen(true);
+                                          System.out.println("Passer en Mode Plein Ecran");
+                                         }
                                     }
                                  });
         //Action Search
@@ -105,7 +119,8 @@
                                           Media media = new Media(Media_URL);
                                           mPlayer=new MediaPlayer(media);
                                           MonLecteur.mediaView.setMediaPlayer(mPlayer);
-                                          mPlayer.setVolume((double) VolumeBar.niveauVolume / 10);
+                                       //mPlayer.setVolume((double) VolumeFSR.niveauVolume / 10);
+                                          mPlayer.setVolume(volumeFSR.getVolume() / 10);
                                           new MediaControl(mPlayer , scene);
                                        
                                        //Alert pas Accès à l'internet
@@ -117,13 +132,13 @@
                                     }
                                  });
       }
-   
+
+      // * * * * * * Mise à jour de largeur du SearchBar
       public void setLargeurSearchBar (double largeur){
          this.resize(largeur,30);
-         searchBar.setPrefWidth(largeur-340);
       }
    
-      //Verification d'accès à internet
+      // * * * * * * Verification d'accès à Internet
       public static boolean siAccesInternet(){
          try {
             URL url = new URL("http://www.google.com");
@@ -141,4 +156,48 @@
             }
          return true;
       }
+
+      // * * * * * * Effet Transition pour Noter le Media
+      // * * * * * * Effet Transition pour Noter le Media
+      private void animateStarBar (ProgressBarFSR starProgress){
+         final TranslateTransition animStar = new TranslateTransition(Duration.millis(400), starProgress);
+         animStar.setToY(-24);
+         animStar.setToX(-120);
+         animStar.play();
+
+         iconCam.setOnMouseEntered(
+                                 new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {
+                                     animStar.stop();
+                                     animStar.setToY(30);
+                                     animStar.play();
+                                    
+                                    }
+                                 });
+         iconCover.setOnMouseEntered(
+                                 new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {
+                                      animStar.stop();
+                                      animStar.setToY(-24);
+                                      animStar.play();
+                                    }
+                                 });
+         pleinEcran.setOnMouseEntered(
+                                 new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {
+                                      animStar.stop();
+                                      animStar.setToY(-24);
+                                      animStar.play();
+                                    }
+                                 });
+
+         this.setOnMouseExited(
+                                 new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {
+                                      animStar.stop();
+                                      animStar.setToY(-24);
+                                      animStar.play();
+                                    }
+                                 });
+   }
    }

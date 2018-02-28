@@ -1,111 +1,51 @@
-   import javafx.scene.control.*;
+   import composantsFSR.*;
+   import javafx.scene.paint.Color;
    import javafx.scene.layout.*;
-   import javafx.beans.value.*;
    import javafx.scene.text.*;
    import javafx.geometry.*;
-   import javafx.scene.Scene;
-   import javafx.scene.paint.Color;
-   import javafx.scene.canvas.*;
-   import javafx.scene.input.MouseEvent;
-   import javafx.event.EventHandler;
 
-   public class MediaBar extends VBox{
-   
-      public Text textTemps;
-      public Text textNom;
-      public Slider slider = new Slider();
-      private ProgressBar progress = new ProgressBar(0);
-      boolean play=false;
+   public class MediaBar extends VBox{   
+      public Text textTemps = new Text("00:00/00:00");
+      public Text textNom = new Text("");
+      private BoutonFSR boutonFSR = new BoutonFSR();
+      public SliderFSR sliderFSR;
    
       public MediaBar(double largeurSlider) {
-         slider.setMinWidth(largeurSlider+15);
-         slider.setMaxWidth(largeurSlider);
-         progress.setMinWidth(largeurSlider);
-         progress.setMaxWidth(largeurSlider);
-         
-         slider.valueProperty().addListener(new ChangeListener<Number>() { 
-            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-               double poucentage=new_val.doubleValue()/slider.getMax();
-               progress.setProgress(poucentage);
-               /*System.out.println(slider.getValue());*/
-               if (slider.isValueChanging())MonLecteur.mediaView.getMediaPlayer().seek(MediaControl.dureeTotal.multiply(poucentage));
-               }
-            });
-         StackPane paneSlider = new StackPane();
-         paneSlider.getChildren().addAll(progress, slider);
-      
-       //Creation BorderPane où on mettra textNom & panPlay
+       //Creation BorderPane, il contiendra 'textNom' & 'panPlay'
          BorderPane bordre_Name =new BorderPane();
-
-      //Placer le Text (Nom du Media) à gauche du BorderPane
-         textNom=new Text("");
+      
+         //Placer Nom_Media à gauche du BorderPane
          textNom.setFill(Color.WHITE);
          textNom.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
          BorderPane.setAlignment(textNom, Pos.CENTER);
          bordre_Name.setLeft(textNom);
-
-      //Placer le panPlay (bouton Play) à droite du BorderPane
-         final double canvasWidth = 37 , canvasHeight = 37;       
-         final Canvas canvasPlay = new Canvas(canvasWidth,canvasHeight);
-         final GraphicsContext gCercle = canvasPlay.getGraphicsContext2D();
-         final GraphicsContext gPlay = canvasPlay.getGraphicsContext2D();
-         canvasPlay.setOpacity(0.8);
-         gCercle.setStroke(Color.WHITE);
-         gCercle.strokeOval(1,1,canvasWidth-2,canvasHeight-2);
-         gCercle.strokeOval(1,1,canvasWidth-3,canvasHeight-3);
-         gPlay.setFill(Color.WHITE);
-         //gPlay.fillPolygon(new double[]{10,10,30}, new double[]{10,26,18}, 3);   
-         gPlay.fillRect(12, 10, 5, 15);
-         gPlay.fillRect(20, 10, 5, 15);
-
-
+      
+         //Placer BoutonPlay à droite du BorderPane
+         boutonFSR.setAction(MonLecteur.mediaView);        
          StackPane panPlay = new StackPane();
-         panPlay.setPrefSize(canvasWidth+15,canvasHeight); //"15" c'est pour que le canvas soit large de tel sorte le cercle ne depasse pas le slider
-         panPlay.getChildren().add(canvasPlay);
+         panPlay.setPrefSize(boutonFSR.getWidth()+15,boutonFSR.getHeight()); //"15" c'est pour Aligner BoutonPlay avec Slider
+         panPlay.setAlignment(Pos.CENTER_LEFT);
+         panPlay.getChildren().add(boutonFSR);
          bordre_Name.setRight(panPlay);
-         
+      
+         //Construire mon SliderBar
+         sliderFSR = new SliderFSR(largeurSlider);
+         sliderFSR.setAction(MonLecteur.mediaView);
+      
          //Creation textTemps
-         textTemps=new Text("Heure");
          textTemps.setFill(Color.WHITE);
-
-         //Placer tous les elements sur VBox
-         getChildren().addAll(bordre_Name, paneSlider, textTemps);
+      
+         //Placer tous les elements sur MediaBar
+         getChildren().addAll(bordre_Name, sliderFSR, textTemps);  
+      
+         //Organiser le MediaBar
          setStyle("-fx-background-color: black;");
-         setPrefHeight(80);
          setPadding(new Insets(5, 10, 5, 10));
-         BorderPane.setAlignment(this, Pos.CENTER);
-         setOpacity(0.8);      
-
-         canvasPlay.setOnMousePressed(
-                                 new EventHandler<MouseEvent>(){
-                                    public void handle(MouseEvent e) {
-                                          canvasPlay.setOpacity(1);
-                                    }
-                                 });
-         canvasPlay.setOnMouseClicked(                                                                
-                                 new EventHandler<MouseEvent>(){
-                                    public void handle(MouseEvent e) {
-                                          canvasPlay.setOpacity(0.8);
-            gPlay.clearRect(8, 8, canvasWidth-15,canvasHeight-15);         //pour effacer Graphis existant pour le remplacer par le nouveau 
-            if(play){            
-               gPlay.fillRect(12, 10, 5, 15);
-               gPlay.fillRect(20, 10, 5, 15);
-               MonLecteur.mediaView.getMediaPlayer().play();
-            }
-            else{
-               gPlay.fillPolygon(new double[]{10,10,30}, new double[]{10,26,18}, 3);
-               MonLecteur.mediaView.getMediaPlayer().pause();
-            }  
-            play=!play;                                              
-          }
-         });
+         setPrefHeight(80);
+         setOpacity(0.8);  
       }
    
       public void setLargeurSlider (double largeur){
-         largeur-=50;
-         slider.setMinWidth(largeur+15);
-         slider.setMaxWidth(largeur);
-         progress.setMinWidth(largeur);
-         progress.setMaxWidth(largeur);
+         sliderFSR.setLargeur(largeur);
       }
    }
