@@ -1,4 +1,5 @@
    //package lecteur;
+   import composantsFSR.*;
    import javafx.application.Application;
    import javafx.scene.input.MouseEvent;
    import javafx.event.EventHandler;
@@ -12,11 +13,11 @@
    import javafx.stage.Stage;
    import javafx.animation.*;
 
-
    public class MonLecteur extends Application {
       static MediaView mediaView;
       static MediaBar mediaBar;
       static SearchBar searchBar;
+      static ProgressBarFSR starProgress;
 
    //Modifier la methode start
       public void start(Stage st) {
@@ -27,7 +28,6 @@
          st.setScene(scene);
          scene.getStylesheets().add("MonStyle.css");                                            // * * * * * * Insertion Style
          
-      
       //Creation BorderPane
          BorderPane border = new BorderPane();
          border.setStyle("-fx-background-color: black;");
@@ -44,6 +44,12 @@
          searchBar = new SearchBar(scene);
          border.getChildren().add(searchBar);
          searchBar.relocate(0,24);
+/*
+      //Placer starProgres au-dessous du SearchBar (hauteur de 24+30)   
+         starProgress = new ProgressBarFSR("star" , 5);
+         starProgress.setValeur(5);
+         border.getChildren().add(starProgress);*/
+         // starProgress.relocate(0,54); 
 
       //Placer le Menubar en Haut du BorderPane
          MenuLecteur menubar = new MenuLecteur(scene);
@@ -55,7 +61,7 @@
 
       //Placer MaList sur la droite du BorderPane
             // * * * * * * 
-            
+ 
       //Ajouter Listner sur Bordre (Effet Transition)
          final TranslateTransition ttMediaBar = new TranslateTransition(Duration.millis(400), mediaBar);   // * * * * * * Effet Transition pour MediaBar
          ttMediaBar.setToY(80);
@@ -96,7 +102,6 @@
                                       ttSearchBar.play();
                                     }
                                  });
-
 
       //Ajouter Listner sur window (Effet Zoom)
          scene.widthProperty().addListener(new ChangeListener<Number>() {  

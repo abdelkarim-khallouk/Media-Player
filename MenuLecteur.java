@@ -57,11 +57,17 @@
                                        } catch(MalformedURLException ex){
                                           }
                                        nomMedia=nomMedia.replaceAll(" ","%20");
-                                       mPlayer = MonLecteur.mediaView.getMediaPlayer();                                  
-                                       if(mPlayer!=null){
+                                       mPlayer = MonLecteur.mediaView.getMediaPlayer();
+
+
+                                       boolean ConnexionInterompue=false;
+                                       if(mPlayer!=null && mPlayer.getMedia().getSource().indexOf("http://")==0 && !SearchBar.siConnected())
+                                           ConnexionInterompue=true;
+
+                                       if(mPlayer!=null && !ConnexionInterompue){//Si la connexion est interompue lors de la lecture il ne faut pas diposer le mPlayer
                                           mPlayer.stop();
                                           mPlayer.dispose();
-                                       }                                    
+                                       }                           
                                        Media media = new Media(nomMedia);
                                        mPlayer = new MediaPlayer(media);
                                        MonLecteur.mediaView.setMediaPlayer(mPlayer);

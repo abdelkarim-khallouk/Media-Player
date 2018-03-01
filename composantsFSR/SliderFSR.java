@@ -37,9 +37,10 @@
                                        double poucentage=new_val.doubleValue()/slider.getMax();
                                        progress.setProgress(poucentage);
                                        MediaPlayer mediaPlayer = mediaView.getMediaPlayer();
-                                       Duration dureeTotal = mediaPlayer.getMedia().getDuration();
-                                       if (slider.isValueChanging() && mediaPlayer!=null) 
-                                          mediaPlayer.seek(dureeTotal.multiply(poucentage));                                                   
+                                                if(slider.isValueChanging() && mediaPlayer!=null){
+                                          Duration dureeTotal = mediaPlayer.getMedia().getDuration();
+                                          mediaPlayer.seek(dureeTotal.multiply(poucentage)); 
+                                          }                                                  
                                     } 
                                  });
       

@@ -57,7 +57,10 @@
                                nomMedia = nomMedia.replaceAll("%20"," ");
                                MonLecteur.mediaBar.textNom.setText(nomMedia);
 
-                               System.out.println("Nom: "+nomMedia+"\nSize: "+(int)largeur+","+(int)hauteur+"\nDuree: "+(int)dureeTotal.toSeconds()+"s"+"\nVolume: "+mp.getVolume());                              
+                               if(SearchBar.alertMSG!=null)
+                                  SearchBar.alertMSG.setCenterMSG(window);
+
+                               System.out.println("Nom: "+nomMedia+"\nTaille: "+(int)largeur+","+(int)hauteur+"\nDuree: "+(int)dureeTotal.toSeconds()+"s"+"\nVolume: "+mp.getVolume());                              
                             }
                          });
       
