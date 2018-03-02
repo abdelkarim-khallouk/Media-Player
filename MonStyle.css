@@ -104,6 +104,11 @@
 	-fx-opacity: 0.6;	
 }
 
+#capture {
+	-fx-background-color: null;
+	-fx-background-image: url("./img/capture.png");	
+}
+
 #volume-1 {
 
 	-fx-background-color: linear-gradient(to top, DODGERBLUE 40%, CYAN);

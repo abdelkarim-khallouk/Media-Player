@@ -27,7 +27,7 @@
       private HBox iconsBar = new HBox();
       static AlertFSR alertMSG;
       static MediaPlayer mediaPlayer;
-   
+
       public SearchBar(final Scene scene) {
          labelSearch.setId("label-search");
          labelSearch.setMinWidth(40);
@@ -48,13 +48,13 @@
          starProgress.setValeur(3);
          starProgress.setOpacity(1);
          animateStarBar(starProgress);
-      
-      
+
+
          //Remplissage iconsBar par les icons: Cover et Camera
          iconsBar.setSpacing(10);
          iconsBar.setAlignment(Pos.CENTER);
          iconsBar.getChildren().addAll(iconCover, iconCam, pleinEcran, starProgress);
-      
+
          //Remplissage searchBar par les elements: textSearch et labelSearch
          searchBar.setSpacing(8);
          searchBar.setAlignment(Pos.CENTER);
@@ -81,11 +81,12 @@
          iconCam.setOnMouseClicked(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       System.out.println("Capture de Couverture");
-                                       alertMSG = new AlertFSR(scene, "Capture de Couverture réalisé avec Succès", "Info.png");
-                                    }
-                                 });
-        //Action Plein Ecran 
+                                          System.out.println("Capture de Couverture");
+                                          new CaptureCoverFSR(MonLecteur.mediaView,starProgress.getValeur());
+                                          new AlertFSR(scene, CaptureCoverFSR.request, "Info.png");
+                                       }
+                                });
+        //Action Mode Plein Ecran
          pleinEcran.setOnMouseClicked(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
@@ -93,36 +94,35 @@
                                        if(st.isFullScreen()){
                                           st.setFullScreen(false);
                                           System.out.println("Retour en Mode Ecran Normale");
-                                       }
+                                         }
                                        else{
                                           st.setFullScreen(true);
                                           System.out.println("Passer en Mode Plein Ecran");
-                                       }
+                                         }
                                     }
                                  });
-                              
+
         //Action Search
          labelSearch.setOnMouseClicked( 
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       String Media_URI = textSearch.getText();
-                                       
+                                       String Media_URL = textSearch.getText();
                                        boolean isFILE = false;
                                        String shemeURI="";
                                        String typeFile = "Non_File";
                                     
-                                       File fichier = new File(Media_URI);
+                                       File fichier = new File(Media_URL);
                                        if(fichier.isFile()){
                                           try{
-                                             Media_URI = fichier.toURL().toExternalForm();
+                                             Media_URL = fichier.toURL().toExternalForm();
                                           }                                             
                                              catch(MalformedURLException ex){                                                     
                                              } 
                                        }
                                     
-                                       Media_URI=Media_URI.replaceAll(" ","%20");
+                                       Media_URL=Media_URL.replaceAll(" ","%20");
                                        try{
-                                          URI uri = new URI(Media_URI);
+                                          URI uri = new URI(Media_URL);
                                           shemeURI = uri.getScheme();
                                           if(new File(uri.getPath()).isFile())isFILE=true;
                                        } 
@@ -131,35 +131,35 @@
                                     
                                        if(shemeURI!=null && shemeURI.equals("http")) typeFile = "Internet";
                                        else if(shemeURI!=null && shemeURI.equals("file")&&isFILE) typeFile = "Local";
-                                       System.out.println("typeFile:  "+typeFile+"  |  "+Media_URI);
+                                       System.out.println("typeFile:  "+typeFile+"  |  "+Media_URL);
                                             //Progress de Notation
-                                    
+
                                        if(typeFile.equals("Non_File"))
-                                          alertMSG = new AlertFSR(scene, "Merci d'entrer Correctement le Nom du Media", "Info.png");
+                                                      alertMSG = new AlertFSR(scene, "Merci d'entrer Correctement le Nom du Media", "Info.png");
                                        else if(typeFile.equals("Internet") && !siConnected())
-                                          alertMSG = new AlertFSR(scene, "Echec de Connexion...", "Alert.png");
+                                             alertMSG = new AlertFSR(scene, "Echec de Connexion...", "Alert.png");
                                        else if (typeFile.equals("Internet") || typeFile.equals("Local")){
-                                          if (typeFile.equals("Internet")) alertMSG = new AlertFSR(scene, "Connexion Reussie...", "Info.png");
-                                          mediaPlayer = MonLecteur.mediaView.getMediaPlayer();
-                                          if(mediaPlayer!=null){
-                                             mediaPlayer.stop();
-                                             mediaPlayer.dispose();
+                                             if (typeFile.equals("Internet")) alertMSG = new AlertFSR(scene, "Connexion Reussie...", "Info.png");
+                                          MediaPlayer mPlayer = MonLecteur.mediaView.getMediaPlayer();
+                                          if(mPlayer!=null){
+                                             mPlayer.stop();
+                                             mPlayer.dispose();
                                           }         
-                                          Media media = new Media(Media_URI);
-                                          mediaPlayer=new MediaPlayer(media);
-                                          MonLecteur.mediaView.setMediaPlayer(mediaPlayer);
-                                          mediaPlayer.setVolume(volumeFSR.getVolume() / 10);
-                                          new MediaControl(mediaPlayer , scene);                                          
+                                             Media media = new Media(Media_URL);
+                                             mediaPlayer=new MediaPlayer(media);
+                                             MonLecteur.mediaView.setMediaPlayer(mediaPlayer);
+                                             mediaPlayer.setVolume(volumeFSR.getVolume() / 10);
+                                             new MediaControl(mediaPlayer , scene);                                          
                                        }                                    
                                     }
                                  }); 
       }
-   
+
       // * * * * * * Mise à jour de largeur du SearchBar   
       public void setLargeurSearchBar (double largeur){
          this.resize(largeur,30);
       }
-   
+
       // * * * * * * Verification d'accès à Internet
       public static boolean siConnected(){
          try {
@@ -178,49 +178,48 @@
             }
          return true;
       }
-   
+
+      // * * * * * * Effet Transition pour Noter le Media
       // * * * * * * Effet Transition pour Noter le Media
       private void animateStarBar (ProgressBarFSR starProgress){
          final TranslateTransition animStar = new TranslateTransition(Duration.millis(400), starProgress);
          animStar.setToY(-24);
          animStar.setToX(-120);
          animStar.play();
-      
+
          iconCam.setOnMouseEntered(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       animStar.stop();
-                                       animStar.setToY(30);
-                                       animStar.play();
+                                     animStar.stop();
+                                     animStar.setToY(30);
+                                     animStar.play();
                                     
                                     }
                                  });
          iconCover.setOnMouseEntered(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       animStar.stop();
-                                       animStar.setToY(-24);
-                                       animStar.play();
+                                      animStar.stop();
+                                      animStar.setToY(-24);
+                                      animStar.play();
                                     }
                                  });
          pleinEcran.setOnMouseEntered(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       animStar.stop();
-                                       animStar.setToY(-24);
-                                       animStar.play();
+                                      animStar.stop();
+                                      animStar.setToY(-24);
+                                      animStar.play();
                                     }
                                  });
-      
+
          this.setOnMouseExited(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       animStar.stop();
-                                       animStar.setToY(-24);
-                                       animStar.play();
+                                      animStar.stop();
+                                      animStar.setToY(-24);
+                                      animStar.play();
                                     }
                                  });
-                                 
-      }
-
    }
+}

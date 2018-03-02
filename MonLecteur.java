@@ -3,7 +3,8 @@
    import javafx.application.Application;
    import javafx.scene.input.MouseEvent;
    import javafx.event.EventHandler;
-   import javafx.scene.image.Image;
+   import javafx.stage.WindowEvent;
+   import javafx.scene.image.*;
    import javafx.scene.layout.*;
    import javafx.scene.media.*;
    import javafx.beans.value.*;
@@ -12,12 +13,16 @@
    import javafx.scene.Scene;
    import javafx.stage.Stage;
    import javafx.animation.*;
+   import javafx.scene.control.*;
+
 
    public class MonLecteur extends Application {
       static MediaView mediaView;
       static MediaBar mediaBar;
       static SearchBar searchBar;
       static ProgressBarFSR starProgress;
+      private ImageView captureImage = new ImageView("./img/capture.png");
+
 
    //Modifier la methode start
       public void start(Stage st) {
@@ -61,6 +66,13 @@
 
       //Placer MaList sur la droite du BorderPane
             // * * * * * * 
+
+      //Ajouter icon de capture d'image
+         captureImage.setFitWidth(44);
+         captureImage.setFitHeight(36);
+         double x = (scene.getWidth()-captureImage.getFitWidth())/2;
+         captureImage.relocate(x,60);
+         border.getChildren().add(captureImage);
  
       //Ajouter Listner sur Bordre (Effet Transition)
          final TranslateTransition ttMediaBar = new TranslateTransition(Duration.millis(400), mediaBar);   // * * * * * * Effet Transition pour MediaBar
@@ -102,23 +114,44 @@
                                       ttSearchBar.play();
                                     }
                                  });
+      captureImage.setOnMousePressed(
+                                    new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {
+                                       captureImage.setOpacity(0.2);
+                                       CaptureCoverFSR.captureImage(mediaView);
+                                    }
+                                 });
+      captureImage.setOnMouseReleased(
+                                    new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {
+                                       captureImage.setOpacity(1);
+                                    }
+                                 });
 
       //Ajouter Listner sur window (Effet Zoom)
          scene.widthProperty().addListener(new ChangeListener<Number>() {  
              public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-               final double largeurApp = scene.getWidth();
-               mediaView.setFitWidth(largeurApp);
+                     final double largeurApp = scene.getWidth();
+                     mediaView.setFitWidth(largeurApp);
 
-               MonLecteur.mediaBar.setLargeurSlider(largeurApp);                    //* * * * * * * Adaptation Taille MediaBar au Media
-               MonLecteur.searchBar.setLargeurSearchBar(largeurApp);                //* * * * * * * Adaptation Taille SearchBar au Media
+                     MonLecteur.mediaBar.setLargeurSlider(largeurApp);                    //* * * * * * * Adaptation Taille MediaBar au Media
+                     MonLecteur.searchBar.setLargeurSearchBar(largeurApp);                //* * * * * * * Adaptation Taille SearchBar au Media
+                     double x = (scene.getWidth()-captureImage.getFitWidth())/2;          //* * * * * * * Adaptation Taille CaptureImage
+                     captureImage.relocate(x,60);
+
              }
-         });
+            });
          scene.heightProperty().addListener(new ChangeListener<Number>() { 
              public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-               mediaView.setFitHeight(scene.getWindow().getHeight());
-            }
-      });
-              
+                     mediaView.setFitHeight(scene.getWindow().getHeight());
+             }
+            });
+         CaptureCoverFSR.correctionBD();
+         scene.getWindow().setOnCloseRequest( new EventHandler<WindowEvent>() {                
+               public void handle(WindowEvent we) {                                          
+                     CaptureCoverFSR.saveID();
+             }
+            });              
          st.show();
       }        
    

@@ -13,37 +13,34 @@
 
    public class AlertFSR extends Stage {
    
-      private Scene sceneAlert;        //pour remplir le stage avec cette scene
-      private String cheminICON;      //Correspond aux 4 icons selon le message
-      private String msg;            //Correspond aux 4 message selon les 4 cas au-desus
-//l'argument scene il va servir pour avoir le window cette dernier sert à centré la B.D
+      private Scene sceneAlert;
+      private String cheminICON;
+      private String msg;
+   
       public AlertFSR(Scene scene, String msg, String cheminICON) {
          this.msg = msg;
          this.cheminICON=cheminICON;
          initModality(Modality.APPLICATION_MODAL);
-//Mettre la barre de la B.D invisible
          initStyle(StageStyle.TRANSPARENT);
-         getIcons().add(new Image("./img/logo.png"));  //Le logo de l'application
+         getIcons().add(new Image("./img/logo.png"));
          setTitle("FSRPlayer"); 
          setResizable(false);
       
-         ImageView imgInfo = new ImageView("./img/"+cheminICON);  //l'image d'alert
+         ImageView imgInfo = new ImageView("./img/"+cheminICON);
          //imgInfo.setFitWidth(40); imgInfo.setPreserveRatio(true); Pour dimentionner l'icon
          Label label = new Label(msg);
          label.setGraphicTextGap(20);
          label.setGraphic(imgInfo);
       
-         Button button = new Button("OK");  //Construction du Bouton 
-         button.setOnAction(                //L'activation de la bouton, on cas d'evenement executé l'instruction (**)
+         Button button = new Button("OK");
+         button.setOnAction(
                               new EventHandler<ActionEvent>(){
                                  public void handle(ActionEvent e) {                                 
-                                    close();            //(**)
+                                    close();
                                  }
                               });
-//Construire un VBox et le center dans le window
          VBox vbox = new VBox();
          vbox.setAlignment(Pos.CENTER);
-//Remplire le VBox 
          vbox.getChildren().addAll(label, button);
       
          sceneAlert = new Scene(vbox);
