@@ -14,7 +14,6 @@
    import java.io.File;
    import java.net.*;
 
-
    public class SearchBar extends BorderPane{
       private TextFieldFSR textSearch = new TextFieldFSR("Rechercher ...");
       private VolumeFSR volumeFSR = new VolumeFSR(MonLecteur.mediaView);
@@ -25,9 +24,10 @@
       private Button iconCam = new Button();
       private HBox searchBar = new HBox();
       private HBox iconsBar = new HBox();
-      static AlertFSR alertMSG;
+      private MediaPlayer mediaPlayer;
       static boolean isCOVER = true;
-      static MediaPlayer mediaPlayer;
+      static double HEIGHT = 30;
+      static AlertFSR alertMSG;
 
       public SearchBar(final Scene scene) {
          labelSearch.setId("label-search");
@@ -66,16 +66,12 @@
          setLeft(iconsBar);
          setCenter(searchBar);
          setRight(volumeFSR);
-         /*iconsBar.setStyle("-fx-background-color: black;");
-         .setStyle("-fx-background-color: black;");
-         .setStyle("-fx-background-color: black;");*/
          starProgress.relocate(70,-10);
          getChildren().add(starProgress);
 
-
          setOpacity(0.7);
-         setPrefHeight(30);
-         resize(scene.getWidth(),30);
+         //setPrefHeight();
+         resize(scene.getWidth(),HEIGHT);
          setPadding(new Insets(0, 10, 0, 10));
          setStyle("-fx-background-color: black;");
       

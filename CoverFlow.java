@@ -90,7 +90,7 @@
          getChildren().addAll(centered);
             // listen for keyboard events
          setFocusTraversable(true);
-         
+      
          if(fichier.length>2)
          update();
       }

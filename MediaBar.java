@@ -4,11 +4,12 @@
    import javafx.scene.text.*;
    import javafx.geometry.*;
 
-   public class MediaBar extends VBox{   
+   public class MediaBar extends VBox{
       public Text textTemps = new Text("00:00/00:00");
       public Text textNom = new Text("");
       private BoutonFSR boutonFSR = new BoutonFSR();
       public SliderFSR sliderFSR;
+      static double HEIGHT = 80;
    
       public MediaBar(double largeurSlider) {
        //Creation BorderPane, il contiendra 'textNom' & 'panPlay'
@@ -41,7 +42,7 @@
          //Organiser le MediaBar
          setStyle("-fx-background-color: black;");
          setPadding(new Insets(5, 10, 5, 10));
-         setPrefHeight(80);
+         setPrefHeight(HEIGHT);
          setOpacity(0.8);  
       }
    

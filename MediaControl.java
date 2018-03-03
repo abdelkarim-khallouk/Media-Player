@@ -1,4 +1,5 @@
    import javafx.beans.InvalidationListener;
+   import java.net.MalformedURLException;
    import javafx.beans.Observable;
    import javafx.scene.text.Text;
    import javafx.util.Duration;
@@ -9,14 +10,15 @@
 
 
    public class MediaControl {  
+      static Duration dureeCourant, dureeTotal;
       private MediaPlayer mp;
-      static Duration dureeCourant, dureeTotal; 
+      //int k = 0;
    
       public MediaControl(final MediaPlayer mp, final Scene scene) {
          this.mp = mp;
       
          mp.setAutoPlay(true); 
-         mp.setCycleCount(2);
+        //mp.setCycleCount(2);
       
          mp.currentTimeProperty().addListener(
                                  new InvalidationListener() {
@@ -67,9 +69,41 @@
          mp.setOnEndOfMedia(        
                            
                               new Runnable() {
-                                 public void run() {      
-                                 
-                                    System.out.println("Fin");
+                                 public void run() {
+                                    MediaPlayer mPlayer = MonLecteur.mediaView.getMediaPlayer();   
+              
+                                    int k = MonLecteur.playlist.getSelectionModel().getSelectedIndex();    
+                                    k++;
+                                    if(k<MenuLecteur.playlistFile.size()){
+                                       MonLecteur.playlist.getSelectionModel().selectNext();
+                                       MonLecteur.playlist.getSelectionModel().clearSelection(k-1);
+                                       File fichier = (File)MenuLecteur.playlistFile.get(k);
+                                       String nomMedia="";
+                                       try{
+                                            nomMedia = fichier.toURL().toExternalForm();
+                                       } catch(MalformedURLException ex){
+                                          }
+                                       nomMedia=nomMedia.replaceAll(" ","%20");
+                                      if(mPlayer!=null){
+                                          mPlayer.stop();
+                                          mPlayer.dispose();
+                                       }                                  
+                                       Media media = new Media(nomMedia);
+                                       mPlayer = new MediaPlayer(media);
+                                       MonLecteur.mediaView.setMediaPlayer(mPlayer);
+                                       mPlayer.setVolume((double) VolumeFSR.volumeProgress.getValeur() / 10);
+                                       MonLecteur.mediaPane.getChildren().setAll(MonLecteur.mediaView);
+                                       new MediaControl(mPlayer , scene);
+                                       SearchBar.isCOVER = false;
+                                       MonLecteur.captureImage.setVisible(true);
+                                       System.out.println("\n\nOuverture du Media N°"+k+" depuis PlayList...");
+                                    }
+                                 else{
+                                   mPlayer.stop();
+                                   MonLecteur.mediaBar.sliderFSR.slider.setValue(0);
+                                   MonLecteur.mediaBar.textNom.setText("");
+                                   MonLecteur.mediaBar.textTemps.setText("");
+                                   }               
                                  }
                               });
       

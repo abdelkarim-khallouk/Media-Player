@@ -5,14 +5,16 @@
    import javafx.stage.FileChooser;
    import javafx.scene.control.*;
    import javafx.scene.media.*;
+   import javafx.collections.*;
    import javafx.stage.Stage;
    import javafx.scene.Scene;
-   import javafx.util.*; 
+   import javafx.util.*;
    import java.io.File;
    import java.util.*; 
 
+
    public class MenuLecteur extends MenuBar {
-   
+      static File fichier=new File("C:\\");  
       private Menu menuFichier=new Menu("Fichier");
       private Menu menuLecture = new Menu("Lecture");   
       private MenuItem menuOuvrir=new MenuItem("Ouvrir");
@@ -22,8 +24,8 @@
       private MenuItem menuLirePause = new MenuItem("Lecture/Pause");
       private MenuItem menuArreter = new MenuItem("Lecture/Arrêter");
       private MediaPlayer mPlayer;
-      private List playlist;
-      static File fichier=new File("C:\\");
+      static  List playlistFile;
+      static double HEIGHT = 24;    
    
       public MenuLecteur (final Scene scene){
          menuFichier.getItems().addAll(menuOuvrir, menuOptions, menuQuitter);
@@ -48,9 +50,11 @@
                                     public void handle(ActionEvent e) {
                                        FileChooser fc = new FileChooser();
                                        fc.setInitialDirectory(fichier.getParentFile());
-                                       playlist = fc.showOpenMultipleDialog(scene.getWindow());
-                                       fichier = (File)playlist.get(0);
-                                    
+                                       playlistFile = fc.showOpenMultipleDialog(scene.getWindow());
+                                       MonLecteur.playlist.setItems(FXCollections.observableArrayList(playlistFile));
+                                       fichier = (File)playlistFile.get(0);
+                                       MonLecteur.playlist.getSelectionModel().select(0);
+
                                        String nomMedia="";
                                        try{
                                             nomMedia = fichier.toURL().toExternalForm();
@@ -106,6 +110,5 @@
                                     }
                                  });
       }
-   
-}
+   }
 //System.out.println("Ouvrir un Fichier...");

@@ -140,3 +140,27 @@
 
 	-fx-border-color: gray;	
 }
+.list-view {
+	-fx-control-inner-background: transparent;
+	-fx-background-color: rgba(0, 0, 0, 0.2); /*Background transparent sans affecté text*/
+	-fx-border-color: White;
+	-fx-border-radius: 10;
+	-fx-background-radius: 10;
+}
+.list-cell:filled:selected {
+	-fx-background-color: white;
+	-fx-text-fill: black;
+}
+
+#list-left-dir {
+	-fx-background-color: null;
+	-fx-background-image: url("./img/dir_left.png");
+
+}
+
+#list-right-dir {
+	-fx-background-color: null;
+
+	-fx-background-image: url("./img/dir_right.png");
+
+}

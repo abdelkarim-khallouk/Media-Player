@@ -30,8 +30,8 @@
          this.note = note;
          mediaPlayer = mediaView.getMediaPlayer();
          if(!coverExist(mediaPlayer)){
-            sauvegardeImage(mediaPlayer);
-            sauvegardeDonnees(mediaPlayer);
+            sauvegardeImage(mediaPlayer);             //FONTION 1
+            sauvegardeDonnees(mediaPlayer);           //FONTION 2
             request = "Capture Cover Realise avec Succes";
          }
          else request = "Cover existant";
@@ -63,7 +63,7 @@
       
       //extension de fichier
          String extension = fileName.substring(fileName.lastIndexOf(".") + 1,fileName.length());
-         tab[2] = "TYPE FICHIER: "+extension.toUpperCase();
+         tab[2] = "FICHIER: "+extension.toUpperCase();
       
       //date de sauvegarde
          Date maDate=new Date();
@@ -79,7 +79,7 @@
          return tab;
       }
    
-   //Sauvegarde des Donnees
+   //Définition de la fontion SauvegardeDonnees
       static void sauvegardeDonnees(MediaPlayer mediaPlayer){
          String [] donnee  = getDonnees(mediaPlayer);
          try{
@@ -92,7 +92,7 @@
             }
       }
    
-   //Sauvegarde Cover
+   //Définition de la fontion SauvegardeImage - Cover
       static void sauvegardeImage(MediaPlayer mediaPlayer) {
          MediaView mView = new MediaView(mediaPlayer);
       

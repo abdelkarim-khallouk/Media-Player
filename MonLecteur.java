@@ -13,17 +13,23 @@
    import javafx.scene.Scene;
    import javafx.stage.Stage;
    import javafx.animation.*;
+   import javafx.geometry.*;
    import javafx.scene.control.*;
    import java.io.File;
 
    public class MonLecteur extends Application {
       static MediaView mediaView;
-      static MediaBar mediaBar;
       static SearchBar searchBar;
-      static ProgressBarFSR starProgress;
       static StackPane mediaPane;
       static CoverFlow coverFlow;
-      static ImageView captureImage = new ImageView("./img/capture.png");
+      static MediaBar mediaBar;
+      static ProgressBarFSR starProgress;
+      static ImageView captureImage;
+      private Button listDirection;
+      boolean isListHide = true;
+      static PlayList playlist;
+      double HEIGHT_BARs = MediaBar.HEIGHT+SearchBar.HEIGHT+MenuLecteur.HEIGHT;
+      double WIDTH_LISTE = 200;
 
    //Modifier la methode start
       public void start(Stage st) {
@@ -32,7 +38,7 @@
          st.getIcons().add(new Image("./img/logo.png"));
          st.setTitle("FSRPlayer");      
          st.setScene(scene);
-         scene.getStylesheets().add("MonStyle.css");                                            // * * * * * * Insertion Style
+         scene.getStylesheets().add("MonStyle.css");                         // * * * * * * Insertion Style
          
       //Creation BorderPane
          BorderPane border = new BorderPane();
@@ -48,7 +54,7 @@
          mediaPane = new StackPane();
          mediaPane.getChildren().setAll(coverFlow);
          border.setCenter(mediaPane);     
-
+         //mediaPane.setVisible(false);
       //Placer le SearchBar au-dessous du Menu (hauteur de 24)
          searchBar = new SearchBar(scene);
          border.getChildren().add(searchBar);
@@ -63,9 +69,20 @@
         border.setBottom(mediaBar);
 
       //Placer MaList sur la droite du BorderPane
-            // * * * * * * 
+         playlist= new PlayList(scene);
+         listDirection = new Button();
+         listDirection.setId("list-left-dir");
+         listDirection.setMaxSize(16,16);
+         listDirection.setMinSize(16,16);
+         final HBox hboxList = new HBox();
+         hboxList.resize(WIDTH_LISTE,scene.getHeight()-HEIGHT_BARs);
+         hboxList.relocate(scene.getWidth()-WIDTH_LISTE,SearchBar.HEIGHT+MenuLecteur.HEIGHT);
+         hboxList.setAlignment(Pos.CENTER);
+         hboxList.getChildren().addAll(listDirection,playlist);
+         border.getChildren().add(hboxList);
 
       //Ajouter icon de capture d'image
+         captureImage = new ImageView("./img/capture.png");
          captureImage.setFitWidth(44);
          captureImage.setFitHeight(36);
          double x = (scene.getWidth()-captureImage.getFitWidth())/2;
@@ -73,13 +90,21 @@
          captureImage.relocate(x,60);
          border.getChildren().add(captureImage);
  
-      //Ajouter Listner sur Bordre (Effet Transition)
+      //Ajouter Effet Transition sur Bordre
          final TranslateTransition ttMediaBar = new TranslateTransition(Duration.millis(400), mediaBar);   // * * * * * * Effet Transition pour MediaBar
          ttMediaBar.setToY(80);
          ttMediaBar.play();
 
-         final TranslateTransition ttSearchBar = new TranslateTransition(Duration.millis(400), searchBar);   // * * * * * * Effet Transition pour MediaBar
+         final TranslateTransition ttSearchBar = new TranslateTransition(Duration.millis(400), searchBar);   // * * * * * * Effet Transition pour SearchBar
          ttSearchBar.setToY(-30);
+         ttSearchBar.play();
+
+         final TranslateTransition ttListView = new TranslateTransition(Duration.millis(500), hboxList);   // * * * * * * Effet Transition pour playList
+         ttListView.setToX(WIDTH_LISTE-16);
+         ttListView.play();
+
+         final TranslateTransition ttCaptureImage = new TranslateTransition(Duration.millis(400), captureImage);   // * * * * * * Effet Transition pour Bouton capture
+         ttSearchBar.setToY(-50);
          ttSearchBar.play();
 
 
@@ -96,6 +121,12 @@
                                     ttSearchBar.setDuration(Duration.millis(200));
                                     ttSearchBar.setToY(0); 
                                     ttSearchBar.play();
+                                    ttCaptureImage.stop();
+                                    ttCaptureImage.setDelay(Duration.millis(0));
+                                    ttCaptureImage.setDuration(Duration.millis(200));
+                                    ttCaptureImage.setToY(5); 
+                                    ttCaptureImage.play();
+
                                     }
                                  });
          border.setOnMouseExited(                                                                  // * * * * * * Effet Transition pour MediaBar
@@ -111,8 +142,34 @@
                                       ttSearchBar.setDuration(Duration.millis(500));
                                       ttSearchBar.setToY(-30);                                       
                                       ttSearchBar.play();
+                                      ttCaptureImage.stop();
+                                      ttCaptureImage.setDelay(Duration.millis(1000));
+                                      ttCaptureImage.setDuration(Duration.millis(500));
+                                      ttCaptureImage.setToY(-94);                                       
+                                      ttCaptureImage.play();
+                                      ttListView.stop();
+                                      ttListView.setDelay(Duration.millis(1000));
+                                      ttListView.setToX(WIDTH_LISTE-16);
+                                      listDirection.setId("list-left-dir");
+                                      ttListView.play();
+                                      isListHide=true;
                                     }
                                  });
+
+     //Ajouter Effet Transition sur button listDirection
+         listDirection.setOnMousePressed(                                                                
+                                 new EventHandler<MouseEvent>(){
+                                    public void handle(MouseEvent e) {ttListView.stop();
+                                    ttListView.setDelay(Duration.millis(0));
+                                       if(isListHide){ttListView.setToX(0);
+                                       listDirection.setId("list-right-dir");}
+                                       else{ ttListView.setToX(WIDTH_LISTE-16);
+                                       listDirection.setId("list-left-dir");}
+                                       isListHide=!isListHide;
+                                       ttListView.play();
+                                       }
+                                 });
+     //Ajouter Action sur button captureImage
       captureImage.setOnMousePressed(
                                     new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
@@ -127,7 +184,7 @@
                                     }
                                  });
 
-      //Ajouter Listner sur window (Effet Zoom)
+      //Ajouter Action sur window (Effet Zoom)
          scene.widthProperty().addListener(new ChangeListener<Number>() {  
              public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                      final double largeurApp = scene.getWidth();
@@ -135,14 +192,16 @@
 
                      MonLecteur.mediaBar.setLargeurSlider(largeurApp);                    //* * * * * * * Adaptation Taille MediaBar au Media
                      MonLecteur.searchBar.setLargeurSearchBar(largeurApp);                //* * * * * * * Adaptation Taille SearchBar au Media
-                     double x = (scene.getWidth()-captureImage.getFitWidth())/2;          //* * * * * * * Adaptation Taille CaptureImage
+                     double x = (scene.getWidth()-captureImage.getFitWidth())/2;          //* * * * * * * Repostionner CaptureImage
                      captureImage.relocate(x,60);
-
+                     hboxList.relocate(scene.getWidth()-WIDTH_LISTE,SearchBar.HEIGHT+MenuLecteur.HEIGHT);//* * * * * * * Repostionner hboxList
              }
             });
          scene.heightProperty().addListener(new ChangeListener<Number>() { 
              public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                     mediaView.setFitHeight(scene.getWindow().getHeight());
+                     final double hauteurApp = scene.getHeight();
+                     mediaView.setFitHeight(hauteurApp);
+                     hboxList.resize(WIDTH_LISTE,scene.getHeight()-HEIGHT_BARs);          //* * * * * * * Adaptation Taille hboxList
              }
             });
          
