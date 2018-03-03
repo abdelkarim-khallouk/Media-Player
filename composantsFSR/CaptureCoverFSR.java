@@ -84,7 +84,7 @@
          String [] donnee  = getDonnees(mediaPlayer);
          try{
             PrintStream fichierSortie = new PrintStream(new FileOutputStream("./cover/Data.fsr",true));
-            fichierSortie.println(id+" , "+donnee[3]+" , "+donnee[0]+" , "+donnee[1]+" , "+donnee[2]+" , "+donnee[4]);
+            fichierSortie.println(id+"|"+donnee[3]+"|"+donnee[0]+"|"+donnee[1]+"|"+donnee[2]+"|"+donnee[4]);
             fichierSortie.close();
             id++;
          }
@@ -151,7 +151,7 @@
             String line;
          
             while((line=in.readLine())!=null){ 
-               st=new StringTokenizer(line, " , "); 
+               st=new StringTokenizer(line, "|"); 
                st.nextToken();
                if(Media_URL.compareTo(st.nextToken())==0)
                   return  true;
@@ -175,7 +175,7 @@
             PrintStream out = new PrintStream(new FileOutputStream("./cover/Data-tmp.fsr"));
             StringTokenizer st;
             while((line=in.readLine())!=null){
-               st=new StringTokenizer(line, " , ");
+               st=new StringTokenizer(line, "|");
                id = Integer.parseInt (st.nextToken());
                String Media_URL = st.nextToken();
                File file_Media = new File( new URI(Media_URL).getPath() );

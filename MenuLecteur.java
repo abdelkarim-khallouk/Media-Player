@@ -71,7 +71,11 @@
                                        mPlayer = new MediaPlayer(media);
                                        MonLecteur.mediaView.setMediaPlayer(mPlayer);
                                        mPlayer.setVolume((double) VolumeFSR.volumeProgress.getValeur() / 10);
+                                       MonLecteur.mediaPane.getChildren().setAll(MonLecteur.mediaView);
                                        new MediaControl(mPlayer , scene);
+                                       SearchBar.isCOVER = false;
+                                       MonLecteur.captureImage.setVisible(true);
+                                       System.out.println("Ouverture du Media depuis Menu...");
                                     }
                                  });
 
@@ -102,5 +106,6 @@
                                     }
                                  });
       }
-   }
+   
+}
 //System.out.println("Ouvrir un Fichier...");

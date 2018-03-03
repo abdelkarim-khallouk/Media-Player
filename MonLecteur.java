@@ -14,15 +14,16 @@
    import javafx.stage.Stage;
    import javafx.animation.*;
    import javafx.scene.control.*;
-
+   import java.io.File;
 
    public class MonLecteur extends Application {
       static MediaView mediaView;
       static MediaBar mediaBar;
       static SearchBar searchBar;
       static ProgressBarFSR starProgress;
-      private ImageView captureImage = new ImageView("./img/capture.png");
-
+      static StackPane mediaPane;
+      static CoverFlow coverFlow;
+      static ImageView captureImage = new ImageView("./img/capture.png");
 
    //Modifier la methode start
       public void start(Stage st) {
@@ -42,19 +43,16 @@
       
       //Placer la Vue au centre du BorderPane
          mediaView = new MediaView(null);
-         border.setCenter(mediaView);
-     
+         CaptureCoverFSR.correctionBD();
+         coverFlow = new CoverFlow(new File("./cover"), scene);
+         mediaPane = new StackPane();
+         mediaPane.getChildren().setAll(coverFlow);
+         border.setCenter(mediaPane);     
 
       //Placer le SearchBar au-dessous du Menu (hauteur de 24)
          searchBar = new SearchBar(scene);
          border.getChildren().add(searchBar);
          searchBar.relocate(0,24);
-/*
-      //Placer starProgres au-dessous du SearchBar (hauteur de 24+30)   
-         starProgress = new ProgressBarFSR("star" , 5);
-         starProgress.setValeur(5);
-         border.getChildren().add(starProgress);*/
-         // starProgress.relocate(0,54); 
 
       //Placer le Menubar en Haut du BorderPane
          MenuLecteur menubar = new MenuLecteur(scene);
@@ -71,6 +69,7 @@
          captureImage.setFitWidth(44);
          captureImage.setFitHeight(36);
          double x = (scene.getWidth()-captureImage.getFitWidth())/2;
+         captureImage.setVisible(false);
          captureImage.relocate(x,60);
          border.getChildren().add(captureImage);
  
@@ -146,7 +145,7 @@
                      mediaView.setFitHeight(scene.getWindow().getHeight());
              }
             });
-         CaptureCoverFSR.correctionBD();
+         
          scene.getWindow().setOnCloseRequest( new EventHandler<WindowEvent>() {                
                public void handle(WindowEvent we) {                                          
                      CaptureCoverFSR.saveID();

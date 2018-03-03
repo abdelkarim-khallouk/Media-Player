@@ -4,6 +4,8 @@
    import javafx.event.EventHandler;
    import javafx.scene.control.*;
    import javafx.scene.layout.*;
+   import javafx.geometry.Pos;
+
 
    public class ProgressBarFSR extends HBox{
       private Label [] label;
@@ -15,6 +17,7 @@
          this.idCss = idCss;
          this.max = max;
          setSpacing(4);
+         setAlignment(Pos.CENTER);
          label =  new Label[max];
          for (int i=0; i<max; i++){          
             final Label item = label[i] = new Label("  ");

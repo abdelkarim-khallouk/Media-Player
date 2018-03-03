@@ -26,6 +26,7 @@
       private HBox searchBar = new HBox();
       private HBox iconsBar = new HBox();
       static AlertFSR alertMSG;
+      static boolean isCOVER = true;
       static MediaPlayer mediaPlayer;
 
       public SearchBar(final Scene scene) {
@@ -53,10 +54,11 @@
          //Remplissage iconsBar par les icons: Cover et Camera
          iconsBar.setSpacing(10);
          iconsBar.setAlignment(Pos.CENTER);
-         iconsBar.getChildren().addAll(iconCover, iconCam, pleinEcran, starProgress);
+         iconsBar.getChildren().addAll(iconCover, iconCam, pleinEcran);
 
          //Remplissage searchBar par les elements: textSearch et labelSearch
          searchBar.setSpacing(8);
+         //searchBar.setMinWidth(10);
          searchBar.setAlignment(Pos.CENTER);
          searchBar.getChildren().addAll(textSearch, labelSearch); 
       
@@ -64,6 +66,13 @@
          setLeft(iconsBar);
          setCenter(searchBar);
          setRight(volumeFSR);
+         /*iconsBar.setStyle("-fx-background-color: black;");
+         .setStyle("-fx-background-color: black;");
+         .setStyle("-fx-background-color: black;");*/
+         starProgress.relocate(70,-10);
+         getChildren().add(starProgress);
+
+
          setOpacity(0.7);
          setPrefHeight(30);
          resize(scene.getWidth(),30);
@@ -74,7 +83,20 @@
          iconCover.setOnMouseClicked( 
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
-                                       System.out.println("Affichage Couvertures des Medias");
+                                       mediaPlayer = MonLecteur.mediaView.getMediaPlayer();
+                                       if(isCOVER){
+                                             MonLecteur.mediaPane.getChildren().setAll(MonLecteur.mediaView);
+                                             MonLecteur.captureImage.setVisible(true);
+                                             if(mediaPlayer!=null) mediaPlayer.play();
+                                             System.out.println("Retour a la Vue du Media");
+                                             }
+                                       else{
+                                             MonLecteur.mediaPane.getChildren().setAll(MonLecteur.coverFlow);
+                                             if(mediaPlayer!=null) mediaPlayer.pause();
+                                             MonLecteur.captureImage.setVisible(false);
+                                             System.out.println("Affichage Couvertures des Medias");
+                                          }  
+                                       isCOVER = !isCOVER;
                                     }
                                  });   
         //Action Capture d'image
@@ -149,7 +171,11 @@
                                              mediaPlayer=new MediaPlayer(media);
                                              MonLecteur.mediaView.setMediaPlayer(mediaPlayer);
                                              mediaPlayer.setVolume(volumeFSR.getVolume() / 10);
-                                             new MediaControl(mediaPlayer , scene);                                          
+                                             MonLecteur.mediaPane.getChildren().setAll(MonLecteur.mediaView);
+                                             new MediaControl(mediaPlayer , scene);
+                                             SearchBar.isCOVER = false;
+                                             MonLecteur.captureImage.setVisible(true);
+                                             System.out.println("Ouverture du Media depuis SearchBar...");                                       
                                        }                                    
                                     }
                                  }); 
@@ -180,18 +206,13 @@
       }
 
       // * * * * * * Effet Transition pour Noter le Media
-      // * * * * * * Effet Transition pour Noter le Media
       private void animateStarBar (ProgressBarFSR starProgress){
          final TranslateTransition animStar = new TranslateTransition(Duration.millis(400), starProgress);
-         animStar.setToY(-24);
-         animStar.setToX(-120);
-         animStar.play();
-
          iconCam.setOnMouseEntered(
                                  new EventHandler<MouseEvent>(){
                                     public void handle(MouseEvent e) {
                                      animStar.stop();
-                                     animStar.setToY(30);
+                                     animStar.setToY(50);
                                      animStar.play();
                                     
                                     }
