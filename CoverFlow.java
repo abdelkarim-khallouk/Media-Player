@@ -19,7 +19,18 @@
    import java.util.*;
    import java.io.*;
 
-//Affichage du Rangé
+   
+/**
+ *   
+ *   Author: Abdelkarim KHALLOUK
+ *   URI: https://github.com/abdelkarim-khallouk
+ *   Email: ab.khallouk@gmail.com
+ *
+  * */
+
+
+
+//Affichage du RangÃ©
    public class CoverFlow extends Region {
       private static final Duration DURATION = Duration.millis(2000);
    //private static final Duration DURATION = Duration.millis(3000);
@@ -95,7 +106,7 @@
          update();
       }
 
-      //Reccuperation du MediaURI et son notation à partir le pathCover
+      //Reccuperation du MediaURI et son notation Ã  partir le pathCover
       private String [] getDonnees(String pathCover){
          String id = pathCover.substring(pathCover.lastIndexOf("_")+1,pathCover.lastIndexOf("."));
          String MediaURI = "", notation = "";
