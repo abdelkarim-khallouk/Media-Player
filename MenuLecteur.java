@@ -12,6 +12,14 @@
    import java.io.File;
    import java.util.*; 
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
 
    public class MenuLecteur extends MenuBar {
       static File fichier=new File("C:\\");  

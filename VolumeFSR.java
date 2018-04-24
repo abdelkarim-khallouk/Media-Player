@@ -7,6 +7,15 @@
    import javafx.scene.media.*;
    import javafx.geometry.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class VolumeFSR extends HBox{
       static ProgressBarFSR volumeProgress = new ProgressBarFSR("volume" , 10);
       private ImageView iconVolume = new ImageView("./img/mute-1.png");

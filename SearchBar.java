@@ -14,6 +14,15 @@
    import java.io.File;
    import java.net.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class SearchBar extends BorderPane{
       private TextFieldFSR textSearch = new TextFieldFSR("Rechercher ...");
       private VolumeFSR volumeFSR = new VolumeFSR(MonLecteur.mediaView);

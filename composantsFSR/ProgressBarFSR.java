@@ -6,6 +6,14 @@
    import javafx.scene.layout.*;
    import javafx.geometry.Pos;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
 
    public class ProgressBarFSR extends HBox{
       private Label [] label;

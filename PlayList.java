@@ -9,6 +9,15 @@
    import javafx.util.*;
    import java.io.File;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class PlayList extends ListView {   
 
       public PlayList(final Scene scene){

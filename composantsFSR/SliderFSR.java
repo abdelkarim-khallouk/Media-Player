@@ -8,6 +8,15 @@
    import javafx.beans.value.*;
    import javafx.geometry.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class SliderFSR extends StackPane{   
       public Slider slider = new Slider();
       private ProgressBar progress = new ProgressBar(0);

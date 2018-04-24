@@ -17,6 +17,15 @@
    import javafx.scene.control.*;
    import java.io.File;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class MonLecteur extends Application {
       static MediaView mediaView;
       static SearchBar searchBar;

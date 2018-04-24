@@ -11,6 +11,15 @@
    import javafx.event.EventHandler;
    import javafx.scene.text.Text;
 
+   
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
    public class AlertFSR extends Stage {
    
       private Scene sceneAlert;

@@ -20,14 +20,13 @@
    import java.io.*;
 
    
-/**
- *   
- *   Author: Abdelkarim KHALLOUK
- *   URI: https://github.com/abdelkarim-khallouk
- *   Email: ab.khallouk@gmail.com
- *
-  * */
-
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
 
 
 //Affichage du Rangé

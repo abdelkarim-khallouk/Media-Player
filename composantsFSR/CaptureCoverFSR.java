@@ -17,6 +17,15 @@
    import java.util.*;
    import java.io.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
 //le id sera enregistrer a la fermeture de l'application
 //il faut enregistrer aussi le note du Media (Star)
 //AlertMSG(cover existe);

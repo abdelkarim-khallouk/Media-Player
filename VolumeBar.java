@@ -7,6 +7,14 @@
    import javafx.scene.media.*;
    import javafx.geometry.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
 
    public class VolumeBar extends HBox{
       private ImageView iconVolume = new ImageView("./img/mute-1.png");

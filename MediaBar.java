@@ -4,6 +4,15 @@
    import javafx.scene.text.*;
    import javafx.geometry.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class MediaBar extends VBox{
       public Text textTemps = new Text("00:00/00:00");
       public Text textNom = new Text("");

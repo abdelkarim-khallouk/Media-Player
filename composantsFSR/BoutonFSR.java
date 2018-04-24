@@ -4,6 +4,15 @@
    import javafx.scene.paint.Color;
    import javafx.event.EventHandler;
    import javafx.scene.input.MouseEvent;
+
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
    
    public class BoutonFSR extends Canvas{
       boolean play=false;

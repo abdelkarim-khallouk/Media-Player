@@ -6,6 +6,15 @@
    import javafx.event.EventHandler;
    import javafx.beans.value.*;
 
+   /**
+    *   
+    *   Author: Abdelkarim KHALLOUK
+    *   URI: https://github.com/abdelkarim-khallouk
+    *   Email: ab.khallouk@gmail.com
+    *
+     * */
+
+
    public class TextFieldFSR extends Region{
       private ImageView imgSearch;
       private TextField textField;
